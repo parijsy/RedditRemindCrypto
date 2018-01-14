@@ -26,6 +26,9 @@ namespace RedditRemindCrypto.Web.App_Start
         public void Configuration(IAppBuilder app)
         {
             var container = RegisterAutofac();
+            // Go crash!
+            container.Resolve<RedditUnreadMessagesReader>().ReadUnreadComments();
+
             ConfigureHangFire(app, container);
         }
 
