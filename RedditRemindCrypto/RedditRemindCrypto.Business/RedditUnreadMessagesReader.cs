@@ -42,7 +42,7 @@ namespace RedditRemindCrypto.Business
             }
             catch (Exception e)
             {
-                Trace.Fail(e.Message);
+                Trace.TraceError(e.Message);
             }
         }
 
@@ -86,7 +86,7 @@ namespace RedditRemindCrypto.Business
             }
             catch (Exception e)
             {
-                Trace.Fail(e.Message);
+                Trace.TraceError(e.Message);
             }
         }
 
