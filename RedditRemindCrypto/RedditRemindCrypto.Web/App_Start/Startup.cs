@@ -57,7 +57,8 @@ namespace RedditRemindCrypto.Web.App_Start
 
         public void ConfigureHangFire(IAppBuilder app, IContainer container)
         {
-            GlobalConfiguration.Configuration.UseSqlServerStorage(Properties.Settings.Default.ConnectionString);
+            var factory = new ConnectionStringFactory();
+            GlobalConfiguration.Configuration.UseSqlServerStorage(factory.Create());
             GlobalConfiguration.Configuration.UseActivator(new ContainerJobActivator(container));
 
             app.UseHangfireDashboard();
