@@ -7,6 +7,7 @@ using RedditSharp;
 using RedditSharp.Things;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -28,13 +29,20 @@ namespace RedditRemindCrypto.Business
 
         public void ReadUnreadComments()
         {
-            foreach (var item in client.User.UnreadMessages.Where(x => x.Kind == "t1").Take(20))
+            try
             {
-                var comment = item as Comment;
-                if (comment == null)
-                    continue;
+                foreach (var item in client.User.UnreadMessages.Where(x => x.Kind == "t1").Take(20))
+                {
+                    var comment = item as Comment;
+                    if (comment == null)
+                        continue;
 
-                Handle(comment);
+                    Handle(comment);
+                }
+            }
+            catch (Exception e)
+            {
+                Trace.Fail(e.Message);
             }
         }
 
@@ -78,6 +86,7 @@ namespace RedditRemindCrypto.Business
             }
             catch (Exception e)
             {
+                Trace.Fail(e.Message);
             }
         }
 
