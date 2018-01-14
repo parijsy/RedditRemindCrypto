@@ -29,8 +29,8 @@ namespace RedditRemindCrypto.Business
 
         public void ReadUnreadComments()
         {
-            //try
-            //{
+            try
+            {
                 foreach (var item in client.User.UnreadMessages.Where(x => x.Kind == "t1").Take(20))
                 {
                     var comment = item as Comment;
@@ -39,11 +39,11 @@ namespace RedditRemindCrypto.Business
 
                     Handle(comment);
                 }
-            //}
-            //catch (Exception e)
-            //{
-            //    Trace.TraceError(e.Message);
-            //}
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError(e.Message);
+            }
         }
 
         public void ReadUnreadPrivateMessages()
@@ -60,11 +60,11 @@ namespace RedditRemindCrypto.Business
 
         private void Handle(Comment comment)
         {
-            //try
-            //{
+            try
+            {
                 comment.SetAsRead();
 
-                if (ContainsUserMention(comment))
+                if (!ContainsUserMention(comment))
                     return;
 
                 var remindRequests = new List<RemindRequest>();
@@ -83,11 +83,11 @@ namespace RedditRemindCrypto.Business
                 var message = CreateReplyMessage(remindRequests, extractionResult.InvalidExpressions);
                 if (!string.IsNullOrEmpty(message))
                     comment.Reply(message);
-            //}
-            //catch (Exception e)
-            //{
-            //    Trace.TraceError(e.Message);
-            //}
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError(e.Message);
+            }
         }
 
         private void Handle(PrivateMessage privateMessage)
