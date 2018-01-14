@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditRemindCrypto.Web", "RedditRemindCrypto.Web\RedditRemindCrypto.Web.csproj", "{9DB0BF3E-D045-40BA-BC0C-9B12B3B03999}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{11A2D712-E0BB-4311-A640-583118D56858}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditRemindCrypto.Business.IntegrationTests", "RedditRemindCrypto.Business.IntegrationTests\RedditRemindCrypto.Business.IntegrationTests.csproj", "{3D6B3944-6C95-4BBC-BC18-C5E88D502A55}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditRemindCrypto.Business.UnitTests", "RedditRemindCrypto.Business.UnitTests\RedditRemindCrypto.Business.UnitTests.csproj", "{69A9E1E5-C11D-4F2C-A6C0-F3E10A1D231F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditRemindCrypto.Business", "RedditRemindCrypto.Business\RedditRemindCrypto.Business.csproj", "{D5E6D392-C64E-4A53-B793-58B4D480CA02}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DB0BF3E-D045-40BA-BC0C-9B12B3B03999}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DB0BF3E-D045-40BA-BC0C-9B12B3B03999}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DB0BF3E-D045-40BA-BC0C-9B12B3B03999}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DB0BF3E-D045-40BA-BC0C-9B12B3B03999}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D6B3944-6C95-4BBC-BC18-C5E88D502A55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D6B3944-6C95-4BBC-BC18-C5E88D502A55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D6B3944-6C95-4BBC-BC18-C5E88D502A55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D6B3944-6C95-4BBC-BC18-C5E88D502A55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69A9E1E5-C11D-4F2C-A6C0-F3E10A1D231F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69A9E1E5-C11D-4F2C-A6C0-F3E10A1D231F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69A9E1E5-C11D-4F2C-A6C0-F3E10A1D231F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69A9E1E5-C11D-4F2C-A6C0-F3E10A1D231F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5E6D392-C64E-4A53-B793-58B4D480CA02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5E6D392-C64E-4A53-B793-58B4D480CA02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5E6D392-C64E-4A53-B793-58B4D480CA02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5E6D392-C64E-4A53-B793-58B4D480CA02}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3D6B3944-6C95-4BBC-BC18-C5E88D502A55} = {11A2D712-E0BB-4311-A640-583118D56858}
+		{69A9E1E5-C11D-4F2C-A6C0-F3E10A1D231F} = {11A2D712-E0BB-4311-A640-583118D56858}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CF84B18C-E700-4575-B861-5DCCACB0AC09}
+	EndGlobalSection
+EndGlobal
