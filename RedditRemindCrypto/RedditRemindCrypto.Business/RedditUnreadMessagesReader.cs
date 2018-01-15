@@ -96,19 +96,43 @@ namespace RedditRemindCrypto.Business
             {
                 privateMessage.SetAsRead();
 
-                if (privateMessage.Body == "-list")
-                {
-                    // pm all reminders to user (privateMessage.Author?)
-                }
-                else if (privateMessage.Body.StartsWith("-delete"))
-                {
-                    // get guid from body
-                    // delete reminder if user of id matches user of pm
-                }
+                if (privateMessage.Body == "list")
+                    HandleListCommand(privateMessage);
+                else if (privateMessage.Body.StartsWith("delete"))
+                    HandleDeleteCommand(privateMessage);
             }
             catch (Exception e)
             {
+                Trace.TraceError(e.Message);
             }
+        }
+
+        private void HandleListCommand(PrivateMessage privateMessage)
+        {
+            var requests = remindRequestService.GetByUser(privateMessage.Author);
+            var messageBuilder = new StringBuilder();
+            if (requests.Any())
+            {
+                messageBuilder.AppendLine("These are your requests:");
+                foreach (var item in requests)
+                {
+                    messageBuilder.AppendLine();
+                    messageBuilder.AppendLine($"Id: {item.Id}, Expression: {item.Expression}, Permalink: {item.Permalink}");
+                }
+            }
+            else
+            {
+                messageBuilder.AppendLine("No requests found.");
+            }
+            privateMessage.Reply(messageBuilder.ToString());
+        }
+
+        private void HandleDeleteCommand(PrivateMessage privateMessage)
+        {
+            var parts = privateMessage.Body.Split(' ');
+
+            if (Guid.TryParse(parts[1], out var id))
+                remindRequestService.DeleteByUserAndId(privateMessage.Author, id);
         }
 
         private bool ContainsUserMention(Comment comment)

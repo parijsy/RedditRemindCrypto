@@ -39,7 +39,29 @@ namespace RedditRemindCrypto.Business.Services
             }
         }
 
+        public void DeleteByUserAndId(string user, Guid id)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            using (var command = connection.CreateCommand())
+            {
+                connection.Open();
+
+                command.CommandText = $"DELETE FROM RemindRequests WHERE Id = '{id}' AND [User] = '{user}'";
+                command.ExecuteNonQuery();
+            }
+        }
+
         public IEnumerable<RemindRequest> GetAll()
+        {
+            return GetCollection("SELECT * FROM RemindRequests");
+        }
+
+        public IEnumerable<RemindRequest> GetByUser(string user)
+        {
+            return GetCollection($"SELECT * FROM RemindRequests WHERE [User] = '{user}'");
+        }
+
+        private IEnumerable<RemindRequest> GetCollection(string commandText)
         {
             using (var connection = new SqlConnection(connectionString))
             using (var command = connection.CreateCommand())
