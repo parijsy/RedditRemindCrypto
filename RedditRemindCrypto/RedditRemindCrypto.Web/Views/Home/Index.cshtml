@@ -1,4 +1,5 @@
-﻿@{
+﻿@model  RedditRemindCrypto.Web.Models.Home.IndexModel
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -17,12 +18,58 @@
                 <li>Overhaul for this site</li>
                 <li>How to, explaining how the bot works and what is possible</li>
                 <li>Allow bot to receive PM commands for -list, and -delete {id} (perhaps -currencies and -help as well?)</li>
-                <li>Show supported currencies on site</li>
                 <li>Support more currencies</li>
                 <li>Donations through crypto, so i don't go poor hosting this on azure</li>
                 <li>Make bot link to this site for info?</li>
-                <li>List used packages</li>
-                <li>List used clients</li>
+            </ul>
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Fiat Currencies</h2>
+        <p>
+            <ul>
+                @foreach (var currency in Model.FiatCurrencies)
+                {
+                    var text = string.Join(", ", currency.AlternativeNames);
+                    <li>@currency.Ticker @(!string.IsNullOrEmpty(text) ? $"({text})" : null)</li>
+                }
+            </ul>
+        </p>
+    </div>
+    <div class="col-md-6">
+        <h2>Crypto Currencies </h2>
+        <p>
+            <ul>
+                @foreach (var currency in Model.CryptoCurrencies)
+                {
+                    var text = string.Join(", ", currency.AlternativeNames);
+                    <li>@currency.Ticker @(!string.IsNullOrEmpty(text) ? $"({text})" : null)</li>
+                }
+            </ul>
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h2>Used NuGet packages</h2>
+        <p>
+            <ul>
+                @foreach (var package in Model.Packages)
+                {
+                    <li>@package.Id</li>
+                }
+            </ul>
+        </p>
+    </div>
+    <div class="col-md-6">
+        <h2>Used clients</h2>
+        <p>
+            <ul>
+                <li>Fiat rates <a href="http://fixer.io/" target="_blank">(Fixer.io)</a></li>
+                <li>Crypto rates <a href="https://coinmarketcap.com/" target="_blank">(CoinMarketCap)</a></li>
             </ul>
         </p>
     </div>

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Integration.Mvc;
 using Hangfire;
 using Microsoft.Owin;
 using Owin;
@@ -14,9 +15,11 @@ using RedditRemindCrypto.Business.Factories;
 using RedditRemindCrypto.Business.Services;
 using RedditRemindCrypto.Business.Settings;
 using RedditRemindCrypto.Web.App_Start;
+using RedditRemindCrypto.Web.Code;
 using RedditRemindCrypto.Web.Factories;
 using RedditRemindCrypto.Web.Settings;
 using System;
+using System.Web.Mvc;
 
 [assembly: OwinStartup(typeof(Startup))]
 namespace RedditRemindCrypto.Web.App_Start
@@ -26,12 +29,14 @@ namespace RedditRemindCrypto.Web.App_Start
         public void Configuration(IAppBuilder app)
         {
             var container = RegisterAutofac();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             ConfigureHangFire(app, container);
         }
 
         private IContainer RegisterAutofac()
         {
             var builder = new ContainerBuilder();
+            builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
             builder.RegisterType<BotSettings>().As<IBotSettings>();
             builder.RegisterType<ConnectionStringFactory>().As<IConnectionStringFactory>();
@@ -51,6 +56,8 @@ namespace RedditRemindCrypto.Web.App_Start
             builder.RegisterType<RedditUnreadMessagesReader>();
             builder.RegisterType<RemindRequestHandler>();
             builder.RegisterType<RemindRequestProcessor>();
+
+            builder.RegisterType<PackagesConfigReader>();
 
             return builder.Build();
         }
