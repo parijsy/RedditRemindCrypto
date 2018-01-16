@@ -1,6 +1,7 @@
 ﻿using RedditRemindCrypto.Business.Caching;
 using RedditRemindCrypto.Business.Clients.CoinMarketCap.Models;
 using System;
+using System.Collections.Generic;
 using System.Runtime.Caching;
 
 namespace RedditRemindCrypto.Business.Clients.CoinMarketCap.Decorators
@@ -11,7 +12,7 @@ namespace RedditRemindCrypto.Business.Clients.CoinMarketCap.Decorators
 
         private static readonly CacheItemPolicy cacheItemPolicy = new CacheItemPolicy
         {
-            AbsoluteExpiration = new DateTimeOffset(DateTime.Now, TimeSpan.FromMinutes(1))
+            AbsoluteExpiration = new DateTimeOffset(DateTime.Now.AddMinutes(1))
         };
 
         private readonly ICoinMarketCapClient decoratee;
@@ -24,6 +25,12 @@ namespace RedditRemindCrypto.Business.Clients.CoinMarketCap.Decorators
         public CoinMarketCapTicker Ticker(string coinMarketCapId)
         {
             return tickerCache.GetOrAdd(coinMarketCapId, decoratee.Ticker, cacheItemPolicy);
+        }
+
+        public IEnumerable<CoinMarketCapTicker> TopCoins(int limit)
+        {
+            // Not caching this
+            return decoratee.TopCoins(limit);
         }
     }
 }

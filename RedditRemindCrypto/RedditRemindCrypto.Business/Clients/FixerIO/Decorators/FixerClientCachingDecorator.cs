@@ -11,7 +11,7 @@ namespace RedditRemindCrypto.Business.Clients.FixerIO.Decorators
 
         private static readonly CacheItemPolicy cacheItemPolicy = new CacheItemPolicy
         {
-            AbsoluteExpiration = new DateTimeOffset(DateTime.Now, TimeSpan.FromHours(1))
+            AbsoluteExpiration = new DateTimeOffset(DateTime.Now.AddHours(1))
         };
 
         private readonly IFixerClient decoratee;

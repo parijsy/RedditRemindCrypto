@@ -16,6 +16,30 @@ namespace RedditRemindCrypto.Business.Services
             this.connectionString = connectionStringFactory.Create();
         }
 
+        public void Add(string ticker, string coinMarketCapId)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            using (var command = connection.CreateCommand())
+            {
+                connection.Open();
+
+                command.CommandText = $"INSERT INTO Currencies (CurrencyType, Ticker, CoinMarketCapId) VALUES (2, '{ticker}', '{coinMarketCapId}')";
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public void AddAlternativeName(string ticker, string alternativeName)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            using (var command = connection.CreateCommand())
+            {
+                connection.Open();
+
+                command.CommandText = $"INSERT INTO CurrencyAlternativeNames (Name, CurrencyTicker) VALUES ('{alternativeName}', (SELECT Ticker FROM Currencies WHERE Ticker = '{ticker}'))";
+                command.ExecuteNonQuery();
+            }
+        }
+
         public CurrencyModel GetByTicker(string ticker)
         {
             return GetAll().Single(x => x.Ticker == ticker);

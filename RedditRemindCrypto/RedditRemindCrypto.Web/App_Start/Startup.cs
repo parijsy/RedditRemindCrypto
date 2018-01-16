@@ -56,6 +56,7 @@ namespace RedditRemindCrypto.Web.App_Start
             builder.RegisterType<RedditUnreadMessagesReader>();
             builder.RegisterType<RemindRequestHandler>();
             builder.RegisterType<RemindRequestProcessor>();
+            builder.RegisterType<AutoPopularCoinAdder>();
 
             builder.RegisterType<PackagesConfigReader>();
 
@@ -74,6 +75,7 @@ namespace RedditRemindCrypto.Web.App_Start
             RecurringJob.AddOrUpdate<RedditUnreadMessagesReader>("Bot_UnreadMessageReader", x => x.ReadUnreadComments(), Cron.Minutely);
             RecurringJob.AddOrUpdate<RedditUnreadMessagesReader>("Bot_UnreadPrivateMessages", x => x.ReadUnreadPrivateMessages(), Cron.Minutely);
             RecurringJob.AddOrUpdate<RemindRequestProcessor>("Bot_RemindRequestProcessor", x => x.Process(), Cron.MinuteInterval(5));
+            RecurringJob.AddOrUpdate<AutoPopularCoinAdder>("AutoAdder_PopularCoins", x => x.AutoAddPopularCoins(200), Cron.Daily(1));
         }
 
         public class ContainerJobActivator : JobActivator

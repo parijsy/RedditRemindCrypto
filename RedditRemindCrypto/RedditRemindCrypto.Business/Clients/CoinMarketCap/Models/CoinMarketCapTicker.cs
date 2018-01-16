@@ -8,5 +8,6 @@
         public int Rank { get; set; }
         public decimal Price_usd { get; set; }
         public decimal Price_btc { get; set; }
+        public decimal Market_cap_usd { get; set; }
     }
 }

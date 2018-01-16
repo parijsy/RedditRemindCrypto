@@ -51,6 +51,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clients\CoinMarketCapClientTest.cs" />
     <Compile Include="Factories\TestConnectionStringFactory.cs" />
     <Compile Include="Settings\TestBotSettings.cs" />
     <Compile Include="UnitTest1.cs" />

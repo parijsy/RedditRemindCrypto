@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Caching\LazyMemoryCache.cs" />
+    <Compile Include="AutoPopularCoinAdder.cs" />
     <Compile Include="Clients\CoinMarketCap\CoinMarketCapClient.cs" />
     <Compile Include="Clients\CoinMarketCap\Decorators\CoinMarketCapClientCachingDecorator.cs" />
     <Compile Include="Clients\CoinMarketCap\ICoinMarketCapClient.cs" />
