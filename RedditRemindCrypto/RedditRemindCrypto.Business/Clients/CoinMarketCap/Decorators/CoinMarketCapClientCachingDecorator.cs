@@ -9,9 +9,9 @@ namespace RedditRemindCrypto.Business.Clients.CoinMarketCap.Decorators
     {
         private static readonly LazyMemoryCache<CoinMarketCapTicker> tickerCache = new LazyMemoryCache<CoinMarketCapTicker>("CoinMarketCap_Ticker");
 
-        private static readonly CacheItemPolicy tickerCacheItemPolicy = new CacheItemPolicy
+        private static readonly CacheItemPolicy cacheItemPolicy = new CacheItemPolicy
         {
-            SlidingExpiration = new TimeSpan(hours: 0, minutes: 10, seconds: 0)
+            AbsoluteExpiration = new DateTimeOffset(DateTime.Now, TimeSpan.FromMinutes(1))
         };
 
         private readonly ICoinMarketCapClient decoratee;
@@ -23,7 +23,7 @@ namespace RedditRemindCrypto.Business.Clients.CoinMarketCap.Decorators
 
         public CoinMarketCapTicker Ticker(string coinMarketCapId)
         {
-            return tickerCache.GetOrAdd(coinMarketCapId, decoratee.Ticker, tickerCacheItemPolicy);
+            return tickerCache.GetOrAdd(coinMarketCapId, decoratee.Ticker, cacheItemPolicy);
         }
     }
 }
