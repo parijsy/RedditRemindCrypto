@@ -72,6 +72,7 @@ namespace RedditRemindCrypto.Web.App_Start
             app.UseHangfireServer();
 
             RecurringJob.AddOrUpdate<RedditUnreadMessagesReader>("Bot_UnreadMessageReader", x => x.ReadUnreadComments(), Cron.Minutely);
+            RecurringJob.AddOrUpdate<RedditUnreadMessagesReader>("Bot_UnreadPrivateMessages", x => x.ReadUnreadPrivateMessages(), Cron.Minutely);
             RecurringJob.AddOrUpdate<RemindRequestProcessor>("Bot_RemindRequestProcessor", x => x.Process(), Cron.MinuteInterval(5));
         }
 

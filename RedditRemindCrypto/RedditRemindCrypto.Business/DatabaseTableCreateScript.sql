@@ -60,6 +60,7 @@ INSERT INTO Currencies (CurrencyType, Ticker, FixerIOName) VALUES (1, 'MXN', 'MX
 INSERT INTO Currencies (CurrencyType, Ticker, FixerIOName) VALUES (1, 'MYR', 'MYR')
 INSERT INTO Currencies (CurrencyType, Ticker, FixerIOName) VALUES (1, 'NOK', 'NOK')
 INSERT INTO Currencies (CurrencyType, Ticker, FixerIOName) VALUES (1, 'NZD', 'NZD')
+INSERT INTO CurrencyAlternativeNames (Name, CurrencyTicker) VALUES ('real-dollar', (SELECT Ticker FROM Currencies WHERE Ticker = 'NZD'))
 INSERT INTO Currencies (CurrencyType, Ticker, FixerIOName) VALUES (1, 'PHP', 'PHP')
 INSERT INTO Currencies (CurrencyType, Ticker, FixerIOName) VALUES (1, 'PLN', 'PLN')
 INSERT INTO Currencies (CurrencyType, Ticker, FixerIOName) VALUES (1, 'RON', 'RON')
