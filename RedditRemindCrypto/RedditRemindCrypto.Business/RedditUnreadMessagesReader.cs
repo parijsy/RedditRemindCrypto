@@ -131,7 +131,8 @@ namespace RedditRemindCrypto.Business
         {
             var parts = privateMessage.Body.Split(' ');
 
-            if (Guid.TryParse(parts[1], out var id))
+            Guid id;
+            if (Guid.TryParse(parts[1], out id))
                 remindRequestService.DeleteByUserAndId(privateMessage.Author, id);
         }
 
