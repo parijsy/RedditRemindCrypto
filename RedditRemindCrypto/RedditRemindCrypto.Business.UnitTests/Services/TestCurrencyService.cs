@@ -1,5 +1,6 @@
 ﻿using RedditRemindCrypto.Business.Services;
 using RedditRemindCrypto.Business.Services.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,6 +30,16 @@ namespace RedditRemindCrypto.Business.UnitTests.Services
         public IEnumerable<CurrencyModel> GetAll()
         {
             return collection;
+        }
+
+        public void Add(string ticker, string coinMarketCapId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddAlternativeName(string ticker, string alternativeName)
+        {
+            throw new NotImplementedException();
         }
     }
 }
