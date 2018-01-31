@@ -17,33 +17,30 @@ namespace RedditRemindCrypto.Business.Interpreters
             this.tokenConverter = tokenConverter;
         }
 
-        public bool Interpret()
+        public InterpreterResult Interpret()
         {
             var tree = parser.Parse();
-            return (bool)Visit(tree);
+            return (InterpreterResult)Visit(tree);
         }
 
-        public bool VisitBinOp(BinaryOperatorNode node)
+        public InterpreterResult VisitBinaryOperatorNode(BinaryOperatorNode node)
         {
             switch (node.Op.Type)
             {
-                // Ipv boolean terug geven een object teruggeven? { Result = true/false, AlwaysFalse = true/false }
-                // operator overload implementeren voor object die nieuw object teruggeeft en properties juist instelt.
-                // Interpret zou dit object terug kunnen geven, of een exception opgooien als AlwaysFalse true is, zodat dit teruggekoppelt kan worden.
                 case TokenType.And:
-                    return (bool)Visit(node.Left) && (bool)Visit(node.Right);
+                    return InterpreterResult.And(Visit(node.Left) as InterpreterResult, Visit(node.Right) as InterpreterResult);
                 case TokenType.Or:
-                    return (bool)Visit(node.Left) || (bool)Visit(node.Right);
+                    return InterpreterResult.Or(Visit(node.Left) as InterpreterResult, Visit(node.Right) as InterpreterResult);
                 case TokenType.LargerThan:
-                    return (decimal)Visit(node.Left) > (decimal)Visit(node.Right);
+                    return new InterpreterResult((decimal)Visit(node.Left) > (decimal)Visit(node.Right), null);
                 case TokenType.SmallerThan:
-                    return (decimal)Visit(node.Left) < (decimal)Visit(node.Right);
+                    return new InterpreterResult((decimal)Visit(node.Left) < (decimal)Visit(node.Right), null);
                 default:
                     throw new InvalidSyntaxException("Error syntax");
             }
         }
 
-        public object VisitMethodOp(MethodNode node)
+        public object VisitMethodNode(MethodNode node)
         {
             var methodToken = node.Token as MethodToken;
             switch (methodToken.Method)
@@ -102,7 +99,7 @@ namespace RedditRemindCrypto.Business.Interpreters
             }
         }
 
-        public decimal VisitNum(NumberNode node)
+        public decimal VisitNumberNode(NumberNode node)
         {
             switch (node.token.Type)
             {

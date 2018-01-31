@@ -18,7 +18,7 @@ namespace RedditRemindCrypto.Business.IntegrationTests.Interpreters
             var interpreter = CreateInterpreter(text);
 
             var result = interpreter.Interpret();
-            Assert.IsTrue(result);
+            Assert.IsTrue(result.Result);
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace RedditRemindCrypto.Business.IntegrationTests.Interpreters
             var interpreter = CreateInterpreter(text);
 
             var result = interpreter.Interpret();
-            Assert.IsTrue(result);
+            Assert.IsTrue(result.Result);
         }
 
         [TestMethod]
@@ -38,7 +38,7 @@ namespace RedditRemindCrypto.Business.IntegrationTests.Interpreters
             var interpreter = CreateInterpreter(text);
 
             var result = interpreter.Interpret();
-            Assert.IsTrue(result);
+            Assert.IsTrue(result.Result);
         }
 
         [TestMethod]
@@ -48,7 +48,18 @@ namespace RedditRemindCrypto.Business.IntegrationTests.Interpreters
             var interpreter = CreateInterpreter(text);
 
             var result = interpreter.Interpret();
-            Assert.IsTrue(result);
+            Assert.IsTrue(result.Result);
+        }
+
+        [TestMethod]
+        public void GivenInterpreter_WhenExpressionIsAlwaysFalse_ThenDetectAlwaysFalse()
+        {
+            var text = @"Before(""2017-12-31"") && After(""2018-12-31"")";
+            var interpreter = CreateInterpreter(text);
+
+            var result = interpreter.Interpret();
+            Assert.IsFalse(result.Result);
+            Assert.IsTrue(result.IsAlwaysFalse.Value);
         }
 
         private Interpreter CreateInterpreter(string text)

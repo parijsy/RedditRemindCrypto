@@ -51,7 +51,7 @@ namespace RedditRemindCrypto.Business.Interpreters
             return info.Market_cap_usd;
         }
 
-        public bool HasRankOrHigher(NumberToken numberToken, CurrencyToken currencyToken)
+        public InterpreterResult HasRankOrHigher(NumberToken numberToken, CurrencyToken currencyToken)
         {
             var expectedRank = numberToken.NumericValue;
             if (expectedRank < 1)
@@ -59,21 +59,22 @@ namespace RedditRemindCrypto.Business.Interpreters
 
             var currency = currencyService.GetByTicker(currencyToken.Ticker);
             var info = coinMarketCapClient.Ticker(currency.CoinMarketCapId);
-            return expectedRank <= info.Rank;
+            return new InterpreterResult(expectedRank <= info.Rank, null);
         }
 
-        public bool IsAfterDateTime(StringToken token)
+        public InterpreterResult IsAfterDateTime(StringToken token)
         {
             var culture = new CultureInfo("en-US");
             var date = DateTime.Parse(token.Value, culture);
-            return date < DateTime.Now;
+            return new InterpreterResult(date< DateTime.Now, null);
         }
 
-        public bool IsBeforeDateTime(StringToken token)
+        public InterpreterResult IsBeforeDateTime(StringToken token)
         {
             var culture = new CultureInfo("en-US");
             var date = DateTime.Parse(token.Value, culture);
-            return date > DateTime.Now;
+            var result = date > DateTime.Now;
+            return new InterpreterResult(result, result ? (bool?)null : true);
         }
     }
 }
