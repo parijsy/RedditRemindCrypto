@@ -180,12 +180,12 @@ namespace RedditRemindCrypto.Business.UnitTests.Interpreters
         }
 
         [TestMethod]
-        public void GivenLexer_WhenTextIsMethodNameTopPrice_ThenMethodIsTopPrice()
+        public void GivenLexer_WhenTextIsMethodNameHasRankOrHigher_ThenMethodIsHasRankOrHigher()
         {
-            var lexer = CreateLexer("TopPrice");
+            var lexer = CreateLexer("HasRankOrHigher");
             var token = lexer.GetNextToken() as MethodToken;
 
-            Assert.AreEqual(Method.TopPrice, token.Method);
+            Assert.AreEqual(Method.HasRankOrHigher, token.Method);
         }
 
         [TestMethod]
@@ -398,13 +398,13 @@ namespace RedditRemindCrypto.Business.UnitTests.Interpreters
         }
 
         [TestMethod]
-        public void GivenLexer_WhenTopPriceMethodExpression_ThenSuccess()
+        public void GivenLexer_WhenHasRankOrHigherMethodExpression_ThenSuccess()
         {
-            var lexer = CreateLexer("TopPrice(20, BCH)");
+            var lexer = CreateLexer("HasRankOrHigher(20, BCH)");
 
             var token = lexer.GetNextToken();
             Assert.AreEqual(TokenType.Method, token.Type);
-            Assert.AreEqual("TopPrice", token.Value);
+            Assert.AreEqual("HasRankOrHigher", token.Value);
 
             token = lexer.GetNextToken();
             Assert.AreEqual(TokenType.LParen, token.Type);

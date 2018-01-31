@@ -80,10 +80,10 @@ namespace RedditRemindCrypto.Business.Interpreters
                         var currencyToken = node.Parameters[0].Token as CurrencyToken;
                         return tokenConverter.ToUsdPrice(currencyToken);
                     }
-                case Method.TopPrice:
+                case Method.HasRankOrHigher:
                     {
                         if (node.Parameters.Count() != 2)
-                            throw new InvalidSyntaxException($"Method '{nameof(Method.TopPrice)}' received an invalid amount of parameters");
+                            throw new InvalidSyntaxException($"Method '{nameof(Method.HasRankOrHigher)}' received an invalid amount of parameters");
 
                         var rank = node.Parameters[0].Token as NumberToken;
                         var currencyToken = node.Parameters[1].Token as CurrencyToken;

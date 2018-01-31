@@ -23,8 +23,8 @@ namespace RedditRemindCrypto.Business.Interpreters.Models
                     return Method.MarketCap;
                 case "volume":
                     return Method.Volume;
-                case "topprice":
-                    return Method.TopPrice;
+                case "hasrankorhigher":
+                    return Method.HasRankOrHigher;
                 case "before":
                     return Method.Before;
                 case "after":

@@ -24,7 +24,7 @@ namespace RedditRemindCrypto.Business.IntegrationTests.Interpreters
         [TestMethod]
         public void TestMethod2()
         {
-            var text = "TopPrice(4, BCH) && Price(BCH) > 1$ && MarketCap(BCH) > 10_000_000€ && Volume(BCH) > 1_000USD";
+            var text = "HasRankOrHigher(4, BCH) && Price(BCH) > 1$ && MarketCap(BCH) > 10_000_000€ && Volume(BCH) > 1_000USD";
             var interpreter = CreateInterpreter(text);
 
             var result = interpreter.Interpret();

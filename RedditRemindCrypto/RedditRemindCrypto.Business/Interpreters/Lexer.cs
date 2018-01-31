@@ -15,7 +15,7 @@ namespace RedditRemindCrypto.Business.Interpreters
         private int pos;
         private char? currentChar;
 
-        private static readonly string[] methodNames = new string[] { "Price", "MarketCap", "Volume", "TopPrice", "TopMarketCap", "TopVolume", "Before", "After" };
+        private static readonly string[] methodNames = new string[] { "Price", "MarketCap", "Volume", "HasRankOrHigher", "Before", "After" };
         private readonly Lazy<IEnumerable<CurrencyModel>> currencies;
 
         public Lexer(string text, ICurrencyService currencyService)

@@ -5,7 +5,7 @@
        Price,
        MarketCap,
        Volume,
-       TopPrice,    // Rename to Rank?
+       HasRankOrHigher,
        Before,
        After
     }
