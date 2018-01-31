@@ -1,4 +1,4 @@
-﻿namespace RedditRemindCrypto.Business.Services.Models
+﻿namespace RedditRemindCrypto.Business.Services.Enums
 {
     public enum CurrencyType
     {

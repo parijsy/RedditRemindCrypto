@@ -1,9 +1,9 @@
 ﻿using RedditRemindCrypto.Business.Services;
+using RedditRemindCrypto.Business.Services.Enums;
 using RedditRemindCrypto.Business.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 
 namespace RedditRemindCrypto.Business.UnitTests.Services
 {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RedditRemindCrypto.Business.Services.Enums;
+using System.Collections.Generic;
 
 namespace RedditRemindCrypto.Business.Services.Models
 {

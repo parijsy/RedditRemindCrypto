@@ -1,7 +1,7 @@
 ﻿using RedditRemindCrypto.Business.Clients.CoinMarketCap;
 using RedditRemindCrypto.Business.Clients.FixerIO;
 using RedditRemindCrypto.Business.Expressions.Models;
-using RedditRemindCrypto.Business.Services.Models;
+using RedditRemindCrypto.Business.Services.Enums;
 
 namespace RedditRemindCrypto.Business.Expressions.Converters
 {
@@ -37,7 +37,7 @@ namespace RedditRemindCrypto.Business.Expressions.Converters
             return currency.Amount * (1 / usdValue);
         }
 
-        public decimal ConvertCryptoToUSD(Currency currency)
+        private decimal ConvertCryptoToUSD(Currency currency)
         {
             var ticker = coinmarkcapClient.Ticker(currency.Type.CoinMarketCapId);
             return currency.Amount * ticker.Price_usd;

@@ -1,5 +1,5 @@
 ﻿using RedditRemindCrypto.Business.Services;
-using RedditRemindCrypto.Business.Services.Models;
+using RedditRemindCrypto.Business.Services.Enums;
 using RedditRemindCrypto.Web.Code;
 using RedditRemindCrypto.Web.Models.Home;
 using System.Linq;
