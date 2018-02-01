@@ -24,7 +24,9 @@ namespace RedditRemindCrypto.Business.Services
             {
                 connection.Open();
 
-                command.CommandText = $"INSERT INTO Currencies (CurrencyType, Ticker, CoinMarketCapId) VALUES (2, '{ticker}', '{coinMarketCapId}')";
+                command.CommandText = "INSERT INTO Currencies (CurrencyType, Ticker, CoinMarketCapId) VALUES (2, @ticker, @coinMarketCapId)";
+                command.Parameters.AddWithValue("@ticker", ticker);
+                command.Parameters.AddWithValue("@coinMarketCapId", coinMarketCapId);
                 command.ExecuteNonQuery();
             }
         }
@@ -36,7 +38,9 @@ namespace RedditRemindCrypto.Business.Services
             {
                 connection.Open();
 
-                command.CommandText = $"INSERT INTO CurrencyAlternativeNames (Name, CurrencyTicker) VALUES ('{alternativeName}', (SELECT Ticker FROM Currencies WHERE Ticker = '{ticker}'))";
+                command.CommandText = "INSERT INTO CurrencyAlternativeNames (Name, CurrencyTicker) VALUES (@alternativeName, (SELECT Ticker FROM Currencies WHERE Ticker = @ticker))";
+                command.Parameters.AddWithValue("@alternativeName", alternativeName);
+                command.Parameters.AddWithValue("@ticker", ticker);
                 command.ExecuteNonQuery();
             }
         }

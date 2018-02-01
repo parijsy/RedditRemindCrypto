@@ -22,7 +22,10 @@ namespace RedditRemindCrypto.Business.Services
             {
                 connection.Open();
 
-                command.CommandText = $"INSERT INTO RemindRequests(Expression, [User], Permalink) VALUES ('{request.Expression}', '{request.User}', '{request.Permalink}')";
+                command.CommandText = "INSERT INTO RemindRequests(Expression, [User], Permalink) VALUES (@expression, @userid, @permalink)";
+                command.Parameters.AddWithValue("@expression", request.Expression);
+                command.Parameters.AddWithValue("@userid", request.User);
+                command.Parameters.AddWithValue("@permalink", request.Permalink);
                 command.ExecuteNonQuery();
             }
         }
@@ -34,7 +37,8 @@ namespace RedditRemindCrypto.Business.Services
             {
                 connection.Open();
 
-                command.CommandText = $"DELETE FROM RemindRequests WHERE Id = '{request.Id}'";
+                command.CommandText = "DELETE FROM RemindRequests WHERE Id = @requestid";
+                command.Parameters.AddWithValue("@requestid", request.Id);
                 command.ExecuteNonQuery();
             }
         }
@@ -46,22 +50,14 @@ namespace RedditRemindCrypto.Business.Services
             {
                 connection.Open();
 
-                command.CommandText = $"DELETE FROM RemindRequests WHERE Id = '{id}' AND [User] = '{user}'";
+                command.CommandText = "DELETE FROM RemindRequests WHERE Id = @requestid AND [User] = @user";
+                command.Parameters.AddWithValue("@requestid", id);
+                command.Parameters.AddWithValue("@user", user);
                 command.ExecuteNonQuery();
             }
         }
 
         public IEnumerable<RemindRequest> GetAll()
-        {
-            return GetCollection("SELECT * FROM RemindRequests");
-        }
-
-        public IEnumerable<RemindRequest> GetByUser(string user)
-        {
-            return GetCollection($"SELECT * FROM RemindRequests WHERE [User] = '{user}'");
-        }
-
-        private IEnumerable<RemindRequest> GetCollection(string commandText)
         {
             using (var connection = new SqlConnection(connectionString))
             using (var command = connection.CreateCommand())
@@ -69,20 +65,38 @@ namespace RedditRemindCrypto.Business.Services
                 connection.Open();
                 command.CommandText = "SELECT * FROM RemindRequests";
 
-                using (var reader = command.ExecuteReader())
+                return ExecuteRemindRequestQuery(command);
+            }
+        }
+
+        public IEnumerable<RemindRequest> GetByUser(string user)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            using (var command = connection.CreateCommand())
+            {
+                connection.Open();
+                command.CommandText = "SELECT * FROM RemindRequests WHERE [User] = @user";
+                command.Parameters.AddWithValue("@user", user);
+
+                return ExecuteRemindRequestQuery(command);
+            }
+        }
+
+        private IEnumerable<RemindRequest> ExecuteRemindRequestQuery(SqlCommand command)
+        {
+            using (var reader = command.ExecuteReader())
+            {
+                if (reader.HasRows)
                 {
-                    if (reader.HasRows)
+                    while (reader.Read())
                     {
-                        while (reader.Read())
+                        yield return new RemindRequest
                         {
-                            yield return new RemindRequest
-                            {
-                                Id = (Guid)reader[nameof(RemindRequest.Id)],
-                                Expression = (string)reader[nameof(RemindRequest.Expression)],
-                                User = (string)reader[nameof(RemindRequest.User)],
-                                Permalink = (string)reader[nameof(RemindRequest.Permalink)],
-                            };
-                        }
+                            Id = (Guid)reader[nameof(RemindRequest.Id)],
+                            Expression = (string)reader[nameof(RemindRequest.Expression)],
+                            User = (string)reader[nameof(RemindRequest.User)],
+                            Permalink = (string)reader[nameof(RemindRequest.Permalink)],
+                        };
                     }
                 }
             }
