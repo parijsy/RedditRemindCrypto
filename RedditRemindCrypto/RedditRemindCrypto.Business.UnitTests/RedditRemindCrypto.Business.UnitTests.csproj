@@ -51,7 +51,6 @@
     <Compile Include="Clients\CoinMarketCap\TestCoinMarketCapClient.cs" />
     <Compile Include="Clients\FixerIO\TestFixerClient.cs" />
     <Compile Include="Expressions\ExpressionExtractorTests.cs" />
-    <Compile Include="Expressions\ExpressionReaderTests.cs" />
     <Compile Include="Interpreters\LexerTests.cs" />
     <Compile Include="Interpreters\TokenQueueFactoryTests.cs" />
     <Compile Include="Interpreters\InterpreterResultTests.cs" />

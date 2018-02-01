@@ -58,15 +58,9 @@
     <Compile Include="Clients\FixerIO\IFixerClient.cs" />
     <Compile Include="Clients\FixerIO\Models\FixerRates.cs" />
     <Compile Include="Expressions\Converters\CurrencyConverter.cs" />
-    <Compile Include="Expressions\Enums\ExpressionOperator.cs" />
-    <Compile Include="Expressions\ExpressionEvaluator.cs" />
     <Compile Include="Expressions\ExpressionExtractor.cs" />
-    <Compile Include="Expressions\ExpressionReader.cs" />
     <Compile Include="Expressions\Models\Currency.cs" />
-    <Compile Include="Expressions\Models\Expression.cs" />
     <Compile Include="Expressions\Models\ExpressionExtractResult.cs" />
-    <Compile Include="Expressions\Parsers\CurrencyParser.cs" />
-    <Compile Include="Expressions\Parsers\ExpressionOperatorParser.cs" />
     <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="Factories\IConnectionStringFactory.cs" />
     <Compile Include="Factories\RedditClientFactory.cs" />

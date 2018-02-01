@@ -1,5 +1,4 @@
-﻿using RedditRemindCrypto.Business.Expressions;
-using RedditRemindCrypto.Business.Factories;
+﻿using RedditRemindCrypto.Business.Factories;
 using RedditRemindCrypto.Business.Interpreters;
 using RedditRemindCrypto.Business.Services;
 using RedditRemindCrypto.Business.Services.Models;
@@ -12,17 +11,13 @@ namespace RedditRemindCrypto.Business
 {
     public class RemindRequestHandler
     {
-        private readonly ExpressionReader expressionReader;
-        private readonly ExpressionEvaluator expressionEvaluator;
         private readonly IRemindRequestService remindRequestService;
         private readonly InterpreterFactory interpreterFactory;
         private readonly Reddit client;
 
-        public RemindRequestHandler(IBotSettings botSettings, IRemindRequestService remindRequestService, ExpressionReader expressionReader, ExpressionEvaluator expressionEvaluator, InterpreterFactory interpreterFactory, RedditClientFactory clientFactory)
+        public RemindRequestHandler(IBotSettings botSettings, IRemindRequestService remindRequestService, InterpreterFactory interpreterFactory, RedditClientFactory clientFactory)
         {
             this.client = clientFactory.Create(botSettings);
-            this.expressionReader = expressionReader;
-            this.expressionEvaluator = expressionEvaluator;
             this.remindRequestService = remindRequestService;
             this.interpreterFactory = interpreterFactory;
         }

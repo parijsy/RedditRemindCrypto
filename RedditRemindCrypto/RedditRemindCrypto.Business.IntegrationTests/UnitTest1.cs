@@ -5,9 +5,6 @@ using RedditRemindCrypto.Business.Clients.FixerIO;
 using RedditRemindCrypto.Business.Clients.FixerIO.Decorators;
 using RedditRemindCrypto.Business.Expressions;
 using RedditRemindCrypto.Business.Expressions.Converters;
-using RedditRemindCrypto.Business.Expressions.Enums;
-using RedditRemindCrypto.Business.Expressions.Models;
-using RedditRemindCrypto.Business.Expressions.Parsers;
 using RedditRemindCrypto.Business.Factories;
 using RedditRemindCrypto.Business.IntegrationTests.Factories;
 using RedditRemindCrypto.Business.IntegrationTests.Settings;
@@ -24,7 +21,6 @@ namespace RedditRemindCrypto.Business.IntegrationTests
     {
         private readonly ICurrencyService currencyService;
         private readonly IRemindRequestService remindRequestService;
-        private readonly ExpressionEvaluator expressionEvaluator;
         private readonly RedditUnreadMessagesReader unreadMessageReader;
         private readonly RemindRequestHandler remindRequestHandler;
 
@@ -37,46 +33,14 @@ namespace RedditRemindCrypto.Business.IntegrationTests
             var currencyConverter = new CurrencyConverter(coinmarkcapClient, fixerClient);
             var redditClientFactory = new RedditClientFactory();
 
-            this.expressionEvaluator = new ExpressionEvaluator(currencyConverter);
             this.currencyService = new CurrencyService(connectionStringFactory);
             this.remindRequestService = new RemindRequestService(connectionStringFactory);
-            var currencyParser = new CurrencyParser(currencyService);
-            var expressionParser = new ExpressionOperatorParser();
-            var expressionReader = new ExpressionReader(currencyParser, expressionParser);
             var tokenConverter = new TokenConverter(currencyConverter, currencyService, coinmarkcapClient);
             var tokenQueueFactory = new TokenQueueFactory();
             var interpreterFactory = new InterpreterFactory(tokenConverter, currencyService, tokenQueueFactory);
             var expressionExtractor = new ExpressionExtractor(interpreterFactory);
             this.unreadMessageReader = new RedditUnreadMessagesReader(settings, remindRequestService, expressionExtractor, redditClientFactory);
-            this.remindRequestHandler = new RemindRequestHandler(settings, remindRequestService, expressionReader, expressionEvaluator, interpreterFactory, redditClientFactory);
-        }
-
-        [TestMethod]
-        public void ExpressionEvaluator()
-        {
-            var expression = new Expression
-            {
-                LeftHandOperator = new Currency { Amount = 1.0005m, Type = currencyService.GetByTicker("BCH") },
-                Operator = ExpressionOperator.SmallerThan,
-                RightHandOperator = new Currency { Amount = 1, Type = currencyService.GetByTicker("BTC") }
-            };
-            var result = expressionEvaluator.Evaluate(expression);
-
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
-        public void ExpressionEvaluator2()
-        {
-            var expression = new Expression
-            {
-                LeftHandOperator = new Currency { Amount = 1, Type = currencyService.GetByTicker("USD") },
-                Operator = ExpressionOperator.SmallerThan,
-                RightHandOperator = new Currency { Amount = 1, Type = currencyService.GetByTicker("EUR") }
-            };
-            var result = expressionEvaluator.Evaluate(expression);
-
-            Assert.IsTrue(result);
+            this.remindRequestHandler = new RemindRequestHandler(settings, remindRequestService, interpreterFactory, redditClientFactory);
         }
 
         [TestMethod]
