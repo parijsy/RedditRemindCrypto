@@ -11,6 +11,7 @@ using RedditRemindCrypto.Business.Expressions.Parsers;
 using RedditRemindCrypto.Business.Factories;
 using RedditRemindCrypto.Business.IntegrationTests.Factories;
 using RedditRemindCrypto.Business.IntegrationTests.Settings;
+using RedditRemindCrypto.Business.Interpreters;
 using RedditRemindCrypto.Business.Services;
 using RedditRemindCrypto.Business.Services.Models;
 using System.Diagnostics;
@@ -42,9 +43,12 @@ namespace RedditRemindCrypto.Business.IntegrationTests
             var currencyParser = new CurrencyParser(currencyService);
             var expressionParser = new ExpressionOperatorParser();
             var expressionReader = new ExpressionReader(currencyParser, expressionParser);
-            var expressionExtractor = new ExpressionExtractor(expressionReader);
+            var tokenConverter = new TokenConverter(currencyConverter, currencyService, coinmarkcapClient);
+            var tokenQueueFactory = new TokenQueueFactory();
+            var interpreterFactory = new InterpreterFactory(tokenConverter, currencyService, tokenQueueFactory);
+            var expressionExtractor = new ExpressionExtractor(interpreterFactory);
             this.unreadMessageReader = new RedditUnreadMessagesReader(settings, remindRequestService, expressionExtractor, redditClientFactory);
-            this.remindRequestHandler = new RemindRequestHandler(settings, remindRequestService, expressionReader, expressionEvaluator, redditClientFactory);
+            this.remindRequestHandler = new RemindRequestHandler(settings, remindRequestService, expressionReader, expressionEvaluator, interpreterFactory, redditClientFactory);
         }
 
         [TestMethod]

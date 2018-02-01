@@ -1,15 +1,16 @@
 ﻿using RedditRemindCrypto.Business.Expressions.Models;
+using RedditRemindCrypto.Business.Interpreters;
 using System;
 
 namespace RedditRemindCrypto.Business.Expressions
 {
     public class ExpressionExtractor
     {
-        private readonly ExpressionReader expressionReader;
+        private readonly InterpreterFactory interpreterFactory;
 
-        public ExpressionExtractor(ExpressionReader expressionReader)
+        public ExpressionExtractor(InterpreterFactory interpreterFactory)
         {
-            this.expressionReader = expressionReader;
+            this.interpreterFactory = interpreterFactory;
         }
 
         public ExpressionExtractResult Extract(string message)
@@ -19,19 +20,21 @@ namespace RedditRemindCrypto.Business.Expressions
             for (var i = 1; i < parts.Length; ++i)
             {
                 var part = parts[i];
-                var expressionStart = part.IndexOf('(');
-                var expressionEnd = part.IndexOf(')');
+                var expressionEnd = part.IndexOf(';');
+                if (expressionEnd == -1)
+                    expressionEnd = part.IndexOf('\n');
 
-                if (expressionStart == -1 || expressionEnd == -1)
+                if (expressionEnd == -1)
                     continue;
 
-                Expression expressionResult;
-                var expression = part.Substring(expressionStart + 1, expressionEnd - expressionStart - 1);
-                if (expressionReader.TryRead(expression, out expressionResult))
+                var expression = part.Substring(0, expressionEnd).TrimStart();
+                try
                 {
+                    var interpreter = interpreterFactory.Create(expression);
+                    var interpreterResult = interpreter.Interpret();
                     result.Expressions.Add(expression);
                 }
-                else
+                catch (Exception)
                 {
                     result.InvalidExpressions.Add(expression);
                 }

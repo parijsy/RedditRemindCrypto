@@ -1,5 +1,6 @@
 ﻿using RedditRemindCrypto.Business.Expressions;
 using RedditRemindCrypto.Business.Factories;
+using RedditRemindCrypto.Business.Interpreters;
 using RedditRemindCrypto.Business.Services;
 using RedditRemindCrypto.Business.Services.Models;
 using RedditRemindCrypto.Business.Settings;
@@ -14,14 +15,16 @@ namespace RedditRemindCrypto.Business
         private readonly ExpressionReader expressionReader;
         private readonly ExpressionEvaluator expressionEvaluator;
         private readonly IRemindRequestService remindRequestService;
+        private readonly InterpreterFactory interpreterFactory;
         private readonly Reddit client;
 
-        public RemindRequestHandler(IBotSettings botSettings, IRemindRequestService remindRequestService, ExpressionReader expressionReader, ExpressionEvaluator expressionEvaluator, RedditClientFactory clientFactory)
+        public RemindRequestHandler(IBotSettings botSettings, IRemindRequestService remindRequestService, ExpressionReader expressionReader, ExpressionEvaluator expressionEvaluator, InterpreterFactory interpreterFactory, RedditClientFactory clientFactory)
         {
             this.client = clientFactory.Create(botSettings);
             this.expressionReader = expressionReader;
             this.expressionEvaluator = expressionEvaluator;
             this.remindRequestService = remindRequestService;
+            this.interpreterFactory = interpreterFactory;
         }
 
         public void Handle(IEnumerable<RemindRequest> reminders)
@@ -32,12 +35,12 @@ namespace RedditRemindCrypto.Business
 
         private void Handle(RemindRequest request)
         {
-            var expression = expressionReader.Read(request.Expression);
-            var conditionMet = expressionEvaluator.Evaluate(expression);
-            if (!conditionMet)
-                return;
-
-            SendReminderAndDeleteRequest(request);
+            var interpreter = interpreterFactory.Create(request.Expression);
+            var interpreterResult = interpreter.Interpret();
+            if (interpreterResult.IsAlwaysFalse.HasValue && interpreterResult.IsAlwaysFalse.Value)
+                SendAlwaysFalseMessageAndDeleteRequest(request);
+            else if (interpreterResult.Result)
+                SendReminderAndDeleteRequest(request);
         }
 
         private void SendReminderAndDeleteRequest(RemindRequest request)
@@ -47,12 +50,29 @@ namespace RedditRemindCrypto.Business
             remindRequestService.Delete(request);
         }
 
-        private Reminder CreateReminder(RemindRequest request)
+        private void SendAlwaysFalseMessageAndDeleteRequest(RemindRequest request)
         {
-            return new Reminder
+            var message = CreateAlwaysFalseMessage(request);
+            client.ComposePrivateMessage(message.Subject, message.Body, message.User);
+            remindRequestService.Delete(request);
+        }
+
+        private PrivateMessage CreateReminder(RemindRequest request)
+        {
+            return new PrivateMessage
             {
                 Subject = "RemindCrypto Reminder",
                 Body = CreateReminderBody(request),
+                User = request.User
+            };
+        }
+
+        private PrivateMessage CreateAlwaysFalseMessage(RemindRequest request)
+        {
+            return new PrivateMessage
+            {
+                Subject = "RemindCrypto Reminder",
+                Body = CreateAlwaysFalseMessageBody(request),
                 User = request.User
             };
         }
@@ -68,7 +88,18 @@ namespace RedditRemindCrypto.Business
             return bodyBuilder.ToString();
         }
 
-        private class Reminder
+        private string CreateAlwaysFalseMessageBody(RemindRequest request)
+        {
+            var bodyBuilder = new StringBuilder($"It seems that the condition '{request.Expression}' can never be met.");
+            if (!string.IsNullOrEmpty(request.Permalink))
+            {
+                bodyBuilder.AppendLine();
+                bodyBuilder.AppendLine($"[Go to comment]({request.Permalink})");
+            }
+            return bodyBuilder.ToString();
+        }
+
+        private class PrivateMessage
         {
             public string Subject { get; set; }
             public string Body { get; set; }

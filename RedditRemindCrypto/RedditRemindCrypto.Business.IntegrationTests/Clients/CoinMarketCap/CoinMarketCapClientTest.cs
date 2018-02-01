@@ -2,7 +2,7 @@
 using RedditRemindCrypto.Business.Clients.CoinMarketCap;
 using System.Linq;
 
-namespace RedditRemindCrypto.Business.IntegrationTests.Clients
+namespace RedditRemindCrypto.Business.IntegrationTests.Clients.CoinMarketCap
 {
     [TestClass]
     public class CoinMarketCapClientTest

@@ -12,6 +12,7 @@ using RedditRemindCrypto.Business.Expressions;
 using RedditRemindCrypto.Business.Expressions.Converters;
 using RedditRemindCrypto.Business.Expressions.Parsers;
 using RedditRemindCrypto.Business.Factories;
+using RedditRemindCrypto.Business.Interpreters;
 using RedditRemindCrypto.Business.Services;
 using RedditRemindCrypto.Business.Settings;
 using RedditRemindCrypto.Web.App_Start;
@@ -57,6 +58,9 @@ namespace RedditRemindCrypto.Web.App_Start
             builder.RegisterType<RemindRequestHandler>();
             builder.RegisterType<RemindRequestProcessor>();
             builder.RegisterType<AutoPopularCoinAdder>();
+            builder.RegisterType<InterpreterFactory>();
+            builder.RegisterType<TokenQueueFactory>(); 
+            builder.RegisterType<TokenConverter>();
 
             builder.RegisterType<PackagesConfigReader>();
 

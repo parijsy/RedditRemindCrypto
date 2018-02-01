@@ -80,6 +80,7 @@
     <Compile Include="Interpreters\Exceptions\InvalidCharacterException.cs" />
     <Compile Include="Interpreters\Exceptions\InvalidSyntaxException.cs" />
     <Compile Include="Interpreters\Interpreter.cs" />
+    <Compile Include="Interpreters\InterpreterFactory.cs" />
     <Compile Include="Interpreters\InterpreterResult.cs" />
     <Compile Include="Interpreters\Lexer.cs" />
     <Compile Include="Interpreters\Models\AndToken.cs" />
