@@ -1,0 +1,84 @@
+﻿@model  RedditRemindCrypto.Web.Models.Home.SupportedCurrenciesModel
+@using RedditRemindCrypto.Business.Services.Models
+@using RedditRemindCrypto.Web.Code
+@{
+    ViewBag.Title = "Currencies";
+}
+
+<h2>Supported currencies</h2>
+<p>
+    All listed currencies, and their synonyms, are supported by the bot and can be used in an expression.<br/>
+    A scheduled task reads the top 200 crypto currencies by marketcap and automagically adds them if they are not already supported.
+</p>
+
+<h2>Fiat Currencies</h2>
+@CreateCurrencyTable(Model.FiatCurrencies)
+
+<h2>Crypto Currencies</h2>
+@CreateCurrencyTable(Model.CryptoCurrencies)
+
+
+@helper CreateCurrencyTable(IEnumerable<CurrencyModel> collection)
+{
+    var groups = collection.Split(3).ToArray();
+
+    <div class="row">
+        <div class="col-md-4">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Ticker</th>
+                        <th scope="col">Synonyms</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var currency in groups[0])
+                    {
+                        <tr>
+                            <td>@currency.Ticker</td>
+                            <td>@(string.Join(", ", currency.AlternativeNames))</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Ticker</th>
+                        <th scope="col">Synonyms</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var currency in groups[1])
+                    {
+                        <tr>
+                            <td>@currency.Ticker</td>
+                            <td>@(string.Join(", ", currency.AlternativeNames))</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Ticker</th>
+                        <th scope="col">Synonyms</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var currency in groups[2])
+                    {
+                        <tr>
+                            <td>@currency.Ticker</td>
+                            <td>@(string.Join(", ", currency.AlternativeNames))</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

@@ -73,7 +73,7 @@ namespace RedditRemindCrypto.Business.IntegrationTests.Interpreters
             var coinMarketCapClient = new CoinMarketCapClient();
             var fixerClient = new FixerClient();
             var currencyConverter = new CurrencyConverter(coinMarketCapClient, fixerClient);
-            var currencyAmountTokenConverter = new TokenConverter(currencyConverter, currencyService, coinMarketCapClient);
+            var currencyAmountTokenConverter = new TokenConverter(currencyConverter, currencyService, coinMarketCapClient, fixerClient);
 
             return new Interpreter(parser, currencyAmountTokenConverter);
         }

@@ -1,0 +1,139 @@
+﻿
+@{
+    ViewBag.Title = "HowTo";
+}
+
+<h2>How to use</h2>
+
+<h3>Summon</h3>
+<p>
+    The bot can be summoned with a usermention. When the usermention is followed by a valid expression you will be informed when the expression evaluates to true.
+</p>
+<p>
+    Below is a simple valid expression. When one Bitcoin is worth more than 20.000 euros you will receive a PM.
+    The expression MUST be after the usermention, otherwise the expression will not be found.
+</p>
+<pre><code>/u/RemindCryptoBot 1BTC &gt; 20000€</code></pre>
+<br />
+<p>
+    Text can be written after the expression when a semicolon (;) is placed, or when there is a newline between the expression and the text.
+</p>
+<pre><code>/u/RemindCryptoBot 1BTC &gt; 20000€; I can write all the text i want here without killing the bot, all thanks to that single semicolon.</code></pre>
+<br />
+<p>
+    If for some reason you wish to create multiple reminders in a single comment you can do so! It's as simple as writing multiple usermentions following by an expression.
+</p>
+<pre><code>/u/RemindCryptoBot 1BTC &gt; 20000€; It's up! /u/RemindCryptoBot 1BTC &lt; 1000€; Oh oh</code></pre>
+<br />
+
+<h3>Currencies</h3>
+<p>
+    For a full list of all supported currencies view the currencies tab.
+    Tickers and synonyms can both be used, and they ignore casing.
+    The currency can be placed before or after the numeric value, and spacing is allowed between them.
+    Readability of large numeric values can be improved by using underscores.
+</p>
+<pre><code>/u/RemindCryptoBot 1BTC &gt; €20000
+/u/RemindCryptoBot btc 1 &gt; 200_000_000.000_001 eur</code></pre>
+<br />
+
+<h3>Operators</h3>
+<h4>Less than</h4>
+<pre><code>/u/RemindCryptoBot 1BTC &gt; 20000€</code></pre>
+<br />
+
+<h4>Greater than</h4>
+<pre><code>/u/RemindCryptoBot 1BTC &lt; 1000€</code></pre>
+<br />
+
+<h4>Logical AND operator</h4>
+<p>
+    The following expression will only be true when one Bitcoin is worth more than 10.000 euros and Ethereum is worth more than Bitcoin.
+</p>
+<pre><code>/u/RemindCryptoBot 1BTC &gt; 10000€ && 1ETH &gt; 1BTC</code></pre>
+<br />
+
+<h4>Logical OR operator</h4>
+<p>
+    This expression will be true when one Bitcoin is less than 5.000 euros or when it's worth more than 10.000 euros.
+</p>
+<pre><code>/u/RemindCryptoBot 1BTC &lt; 5000€ || 1BTC &gt; 10000€</code></pre>
+<br />
+
+<h3>Methods</h3>
+<p>
+    The following methods can be used in an expression. The method names ignore casing.
+</p>
+<h4>Price</h4>
+<p>
+    This method is pretty useless, but if you want to compares two coins without writing a numeric value you should use this method.
+</p>
+<pre><code>/u/RemindCryptoBot Price(BTC) &lt; Price(ETH)</code></pre>
+<br />
+<h4>HasRankOrHigher</h4>
+<p>
+    When vertcoin is back in the top 100 this expression will evaluate to true.
+</p>
+<pre><code>/u/RemindCryptoBot HasRankOrHigher(100, VTC)</code></pre>
+<br />
+<h4>MarketCap</h4>
+<p>
+    Want to know when a coin has reached a certain marketcap you can use this method.
+</p>
+<pre><code>/u/RemindCryptoBot MarketCap(BTC) > 200_000_000_000$</code></pre>
+<br />
+<h4>Volume</h4>
+<p>
+    Similar to MarketCap, but, you guessed it, volume. 24hr volume to be exact.
+</p>
+<pre><code>/u/RemindCryptoBot Volume(BTC) > 20_000_000_000$</code></pre>
+<br />
+<h4>After</h4>
+<p>
+    Anyone making fancy predictions? Use After together with a price comparison.
+</p>
+<p>
+    The date is parsed using the Parse function of C#'s DateTime structure with the culture en-US.
+    The date MUST be in double quotes.
+    Documentation for supported strings can be found at <a href="https://msdn.microsoft.com/en-us/library/system.datetime.parse(v=vs.110).aspx">msdn</a>.
+</p>
+<pre><code>/u/RemindCryptoBot Price(BTC) > 20_000$ && After("2017-12-31")</code></pre>
+<br />
+<h4>Before</h4>
+<p>
+    Can't have and After method without a Before alternative.
+</p>
+<p>
+    The following expression predicts that Bitcoin will be worth more than 1 million dollars before 2019. When the condition can no longer be met you will be informed as well.
+</p>
+<pre><code>/u/RemindCryptoBot Price(BTC) > 1_000_000USD && Before("2019-01-01")</code></pre>
+<br />
+
+
+<h3>Nesting</h3>
+<p>
+    Complex expressions can be written with the use of brackets.
+</p>
+<pre><code>/u/RemindCryptoBot (HasRankOrHigher(100, VTC) && HasRankOrHigher(5, LTC)) || (Price(BTC) > 1_000_000USD && (Before("2018-02-01") || After("2018-03-01")))</code></pre>
+<br />
+
+
+<h3>PM Commands</h3>
+<h4>List</h4>
+<p>
+    PM the bot the message "list" to receive a list of your expressions together with their id.
+</p>
+<pre><code>list</code></pre>
+<p>Bot Response</p>
+<pre><code>These are your requests:
+Id: edd54645-68b3-42b8-bab2-697037e7a62f, Expression: 1BTC > 1EUR, Permalink: /r/test/comments/7q4q5r/_/dsqggev
+Id: 2ab05415-42e1-4b1b-90c0-b09b419d2b1e, Expression: 1BTC > 3EUR, Permalink: /r/test/comments/7q4q5r/_/dsqggev
+</code></pre>
+<br />
+<h4>Delete</h4>
+<p>
+    You can delete a reminder by sending the bot the word "delete" following by a space and the id of the reminder you want to delete.
+</p>
+<pre><code>delete 2ab05415-42e1-4b1b-90c0-b09b419d2b1e</code></pre>
+
+

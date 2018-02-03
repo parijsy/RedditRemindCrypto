@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Developers";
+}
+
+<h2>Developers</h2>
+<p>
+    Source code to this project is available at <a href="https://github.com/parijsy/RedditRemindCrypto">Github</a>.
+</p>
+
+
+<h3>API's</h3>
+<p>
+    This project has been made possible with the following API's.
+</p>
+<p>
+    <ul>
+        <li><a href="http://fixer.io/" target="_blank">Fixer.io</a> for current fiat rates</li>
+        <li><a href="https://coinmarketcap.com/api/" target="_blank">CoinMarketCap API</a> for current crypto rates</li>
+    </ul>
+</p>
+
+
+<h3>NuGet packages</h3>
+<p>
+    For a complete overview of used packages please consult the <a href="https://github.com/parijsy/RedditRemindCrypto">source code on GitHub</a>.
+</p>
+<h4><a href="https://github.com/CrustyJew/RedditSharp">RedditSharp</a></h4>
+<p>
+    What's a Reddit bot without a client to communicate with Reddit? It isn't perfect but it surely got the job done.
+</p>
+<h4><a href="https://www.hangfire.io/">Hangfire</a></h4>
+<p>
+    Not wanting to write my own task scheduler and rather having one in the web application, I came across Hangfire. It was surpisingly easy to setup.
+</p>
+
+
+<h3>Interpreter tutorial</h3>
+<p>
+    Starting out on this project I had never written an interpreter before.
+    The first prototype simply parsed an expression by splitting text on spaces. The split result had to result in exactly three items,
+    a left hand value, operator, and a right hand value. The only supported operators were '<' and '>'.
+</p>
+<p>
+    Realizing this was rather limited I decided that the expression would need to be compiled or something like that. While searching for information on how to write my own compiler I stumbled upon <a href="https://ruslanspivak.com/lsbasi-part1/">this tutorial</a>.
+    If you have little to no knowledge about interpreters and would like to know more about them then I would recommend following the tutorial.
+    I would like to end with the quote with which the tutorial starts and by admitting that i still don't know for 100% how compilers work.
+</p>
+<blockquote class="blockquote">
+    <p class="mb-0">If you don’t know how compilers work, then you don’t know how computers work. If you’re not 100% sure whether you know how compilers work, then you don’t know how they work.</p>
+    <footer class="blockquote-footer"><cite title="Source Title">Steve Yegge</cite></footer>
+</blockquote>

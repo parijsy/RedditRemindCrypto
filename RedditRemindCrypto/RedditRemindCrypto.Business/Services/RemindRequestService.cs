@@ -3,6 +3,7 @@ using RedditRemindCrypto.Business.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace RedditRemindCrypto.Business.Services
 {
@@ -65,7 +66,7 @@ namespace RedditRemindCrypto.Business.Services
                 connection.Open();
                 command.CommandText = "SELECT * FROM RemindRequests";
 
-                return ExecuteRemindRequestQuery(command);
+                return ExecuteRemindRequestQuery(command).ToArray();
             }
         }
 
@@ -78,7 +79,7 @@ namespace RedditRemindCrypto.Business.Services
                 command.CommandText = "SELECT * FROM RemindRequests WHERE [User] = @user";
                 command.Parameters.AddWithValue("@user", user);
 
-                return ExecuteRemindRequestQuery(command);
+                return ExecuteRemindRequestQuery(command).ToArray(); ;
             }
         }
 

@@ -15,7 +15,6 @@ using RedditRemindCrypto.Business.Interpreters;
 using RedditRemindCrypto.Business.Services;
 using RedditRemindCrypto.Business.Settings;
 using RedditRemindCrypto.Web.App_Start;
-using RedditRemindCrypto.Web.Code;
 using RedditRemindCrypto.Web.Factories;
 using RedditRemindCrypto.Web.Settings;
 using System;
@@ -56,8 +55,6 @@ namespace RedditRemindCrypto.Web.App_Start
             builder.RegisterType<InterpreterFactory>();
             builder.RegisterType<TokenQueueFactory>(); 
             builder.RegisterType<TokenConverter>();
-
-            builder.RegisterType<PackagesConfigReader>();
 
             return builder.Build();
         }

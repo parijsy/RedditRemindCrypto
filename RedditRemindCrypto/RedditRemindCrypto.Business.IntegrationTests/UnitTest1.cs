@@ -35,7 +35,7 @@ namespace RedditRemindCrypto.Business.IntegrationTests
 
             this.currencyService = new CurrencyService(connectionStringFactory);
             this.remindRequestService = new RemindRequestService(connectionStringFactory);
-            var tokenConverter = new TokenConverter(currencyConverter, currencyService, coinmarkcapClient);
+            var tokenConverter = new TokenConverter(currencyConverter, currencyService, coinmarkcapClient, fixerClient);
             var tokenQueueFactory = new TokenQueueFactory();
             var interpreterFactory = new InterpreterFactory(tokenConverter, currencyService, tokenQueueFactory);
             var expressionExtractor = new ExpressionExtractor(interpreterFactory);

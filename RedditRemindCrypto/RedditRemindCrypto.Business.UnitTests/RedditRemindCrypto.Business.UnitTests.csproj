@@ -54,6 +54,7 @@
     <Compile Include="Interpreters\LexerTests.cs" />
     <Compile Include="Interpreters\TokenQueueFactoryTests.cs" />
     <Compile Include="Interpreters\InterpreterResultTests.cs" />
+    <Compile Include="Interpreters\TokenConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\TestCurrencyService.cs" />
   </ItemGroup>

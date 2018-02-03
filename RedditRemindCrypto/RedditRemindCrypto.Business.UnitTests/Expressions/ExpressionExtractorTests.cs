@@ -21,7 +21,7 @@ namespace RedditRemindCrypto.Business.UnitTests.Expressions
             var coinMarketCapClient = new TestCoinMarketCapClient();
             var fixerClient = new TestFixerClient();
             var currencyConverter = new CurrencyConverter(coinMarketCapClient, fixerClient);
-            var tokenConverter = new TokenConverter(currencyConverter, currencyService, coinMarketCapClient);
+            var tokenConverter = new TokenConverter(currencyConverter, currencyService, coinMarketCapClient, fixerClient);
             var interpreterFactory = new InterpreterFactory(tokenConverter, currencyService, tokenQueueFactory);
             this.expressionExtractor = new ExpressionExtractor(interpreterFactory);
         }
