@@ -40,5 +40,10 @@ namespace RedditRemindCrypto.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult Donate()
+        {
+            return View();
+        }
     }
 }
