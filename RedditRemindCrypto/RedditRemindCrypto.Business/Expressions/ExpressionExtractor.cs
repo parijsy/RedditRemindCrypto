@@ -25,7 +25,7 @@ namespace RedditRemindCrypto.Business.Expressions
                     expressionEnd = part.IndexOf('\n');
 
                 if (expressionEnd == -1)
-                    continue;
+                    expressionEnd = part.Length;
 
                 var expression = part.Substring(0, expressionEnd).TrimStart();
                 try

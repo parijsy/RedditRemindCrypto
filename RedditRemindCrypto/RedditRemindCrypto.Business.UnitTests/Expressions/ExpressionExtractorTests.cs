@@ -39,6 +39,18 @@ namespace RedditRemindCrypto.Business.UnitTests.Expressions
         }
 
         [TestMethod]
+        public void ExpressionExtractor_X()
+        {
+            var expected = "1VTC > 100EUR";
+            var message = $"Some Text. /u/RemindCryptoBot {expected}";
+            var actual = expressionExtractor.Extract(message);
+
+            Assert.AreEqual(1, actual.Expressions.Count);
+            Assert.AreEqual(0, actual.InvalidExpressions.Count);
+            Assert.IsTrue(actual.Expressions.Contains(expected));
+        }
+
+        [TestMethod]
         public void ExpressionExtractor_2()
         {
             var message = "Some Text. /u/RemindCryptoBot lorem ipsum";
