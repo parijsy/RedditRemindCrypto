@@ -4,6 +4,7 @@ using RedditRemindCrypto.Business.Services;
 using RedditRemindCrypto.Business.Services.Models;
 using RedditRemindCrypto.Business.Settings;
 using RedditSharp;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -30,12 +31,28 @@ namespace RedditRemindCrypto.Business
 
         private void Handle(RemindRequest request)
         {
-            var interpreter = interpreterFactory.Create(request.Expression);
-            var interpreterResult = interpreter.Interpret();
+            var interpreterResult = InterpretExpression(request);
+            if (interpreterResult == null)
+                return;
+
             if (interpreterResult.IsAlwaysFalse.HasValue && interpreterResult.IsAlwaysFalse.Value)
                 SendAlwaysFalseMessageAndDeleteRequest(request);
             else if (interpreterResult.Result)
                 SendReminderAndDeleteRequest(request);
+        }
+
+        private InterpreterResult InterpretExpression(RemindRequest request)
+        {
+            try
+            {
+                var interpreter = interpreterFactory.Create(request.Expression);
+                return interpreter.Interpret();
+            }
+            catch (Exception)
+            {
+                remindRequestService.Delete(request);
+                return null;
+            }
         }
 
         private void SendReminderAndDeleteRequest(RemindRequest request)
